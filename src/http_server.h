@@ -11,7 +11,7 @@ struct HttpServer {
     http_request_callback request_callback;
 };
 
-Struct HttpServer *http_server_new(Struct EventLoop *event_loop, int port, http_request_callback request callback, int thread_num);
+Struct HttpServer *http_server_new(Struct EventLoop *event_loop, int port, http_request_callback request_callback, int thread_num);
 
 void http_server_start(Struct HttpServer *http_server);
 
