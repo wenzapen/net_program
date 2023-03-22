@@ -1,4 +1,5 @@
-#include "accptor.h"
+#include "acceptor.h"
+#include "common.h"
 
 struct Acceptor *acceptor_new(int port)
 {
@@ -9,7 +10,7 @@ struct Acceptor *acceptor_new(int port)
     make_nonblocking(acceptor->listen_fd);
 
     struct sockaddr_in server_addr;
-    bzero(&server_addr, sizeof(serer_addr));
+    bzero(&server_addr, sizeof(server_addr));
     server_addr.sin_family = AF_INET;
     server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
     server_addr.sin_port = htons(port);
