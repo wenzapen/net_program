@@ -31,7 +31,11 @@ Struct HttpServer *http_server_new(Struct EventLoop *event_loop,
     
     struct Acceptor *acceptor = acceptor_new(port);
     
-    http_server->tcp_server = tcp_server_new(event_loop, acceptor, )
+    http_server->tcp_server = tcp_server_new(event_loop, acceptor, http_on_connection_completed,
+                                            http_on_message,
+                                            http_on_write_completed,
+                                            http_on_connection_closed,
+                                            thread_num )
 }
 
 void http_server_start(Struct HttpServer *http_server)
