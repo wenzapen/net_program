@@ -109,7 +109,22 @@ int event_loop_update_channel_event(struct EventLoop *event_loop, int fd, struct
 
 int event_loop_handle_pending_add(struct EventLoop *event_loop, int fd, struct Channel *channel)
 {
+    struct ChannelMap *channel_map = event_loop->channel_map;
+    if(fd>channel_map->nentries)
+    {
+        if(map_make_space(channel_map, fd, sizeof(struct Channel)) == -1)
+            return -1;
+    }
 
+    if(channel_map->entries[fd] == NULL) 
+    {
+        channel_map->entries[fd] = channel;
+
+        struct EventDispatcher *dispatcher = event_loop->event_dispatcher;
+        dispatcher->add(event_loop, channel);
+        return 1;
+    }
+    return 0;
 }
 
 int event_loop_handle_pending_remove(struct EventLoop *event_loop, int fd, struct Channel *channel)
