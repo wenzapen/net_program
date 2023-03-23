@@ -1,4 +1,15 @@
+#include "tcp_connection.h"
 
+
+int handle_read(void *data)
+{
+
+}
+
+int handle_write(void *data)
+{
+
+}
 
 
 struct TcpConnection *tcp_connection_new(int fd,
@@ -23,7 +34,15 @@ struct TcpConnection *tcp_connection_new(int fd,
     sprintf(buf, "connection-%d\0", fd);
     tcp_connection->name = buf;
 
-    struct Channel *channel = 
+    struct Channel *channel = channel_new(fd, EVENT_READ, handle_read, handle_write, tcp_connection);
+    tcp_connection->channel = channel;
+
+    if(tcp_connection->connection_completed_callback != NULL)
+        tcp_connection->connection_completed_callback(tcp_connection);
+    
+    event_loop_add_channel_event(tcp_connection->event_loop, fd, tcp_connection->channel);
+
+    return tcp_connection;
 
 
 }

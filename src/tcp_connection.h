@@ -1,6 +1,9 @@
 #ifndef TCPCONNECTION_H
 #define TCPCONNECTION_H
 
+#include "tcp_server.h"
+
+
 struct TcpConnection {
     struct EventLoop *event_loop;
     struct Channel *channel;
