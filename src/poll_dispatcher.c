@@ -29,7 +29,19 @@ const struct EventDispatcher poll_dispatcher = {
 
 };
 
+//init and return poll dispatcher data
 void *poll_init(struct EventLoop *event_loop)
 {
-    
+    struct PollDispatcherData *poll_dispatcher_data = malloc(sizeof(struct PollDispatcherData));
+    poll_dispather_data->event_set = malloc(sizeof(struct pollfd) * INIT_POLL_SIZE);
+    int i;
+    for (i=0; i<INIT_POLL_SIZE; i++)
+        poll_dispatcher_data->event_set[i].fd = -1;
+    poll_dispatcher_data->event_count = 0;
+    poll_dispatcher_data->nfds = 0;
+    poll_dispatcher_data->realloc_copy = 0;
+
+    return poll_dispatcher_data;
+
 }
+

@@ -40,5 +40,5 @@ Struct HttpServer *http_server_new(Struct EventLoop *event_loop,
 
 void http_server_start(Struct HttpServer *http_server)
 {
-
+    tcp_server_start(http_server->tcp_server);
 }
