@@ -37,4 +37,8 @@ int main(int argc, char **argv)
     struct EventLoop *event_loop = event_loop_init();
 
     struct HttpServer *http_server = http_server_new(event_loop, SERV_PORT, on_request, 2);
+
+    http_server_start(http_server);
+
+    event_loop_run(event_loop);
 }

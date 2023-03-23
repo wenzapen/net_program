@@ -35,7 +35,10 @@ Struct HttpServer *http_server_new(Struct EventLoop *event_loop,
                                             http_on_message,
                                             http_on_write_completed,
                                             http_on_connection_closed,
-                                            thread_num )
+                                            thread_num );
+    http_server->tcp_server->data = http_server;
+
+    return http_server;
 }
 
 void http_server_start(Struct HttpServer *http_server)
