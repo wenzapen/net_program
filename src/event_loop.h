@@ -17,7 +17,7 @@ struct ChannelElement {
 
 struct EventLoop {
     int quit;
-    const struct EventDispatcher *event_dispatcher;
+    struct EventDispatcher *event_dispatcher;
     void *event_dispatcher_data;
     struct ChannelMap *channel_map;
     int is_handle_pending;

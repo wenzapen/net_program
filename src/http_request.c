@@ -21,7 +21,7 @@ struct HttpRequest *http_request_new() {
     return request;
 }
 
-void http_reqeust_clear(struct HttpRequest *request) {
+void http_request_clear(struct HttpRequest *request) {
     if(request->request_headers != NULL) {
         for(int i=0; i<request->request_headers_number; i++) {
             free(request->request_headers[i].key);
@@ -32,7 +32,7 @@ void http_reqeust_clear(struct HttpRequest *request) {
     free(request);
 }
 
-void http_reqeust_reset(struct HttpRequest *http_request) {
+void http_request_reset(struct HttpRequest *request) {
     request->method = NULL;
     request->current_state = REQUEST_STATUS;
     request->version = NULL;
@@ -40,13 +40,13 @@ void http_reqeust_reset(struct HttpRequest *http_request) {
     request->request_headers_number = 0;
 }
 
-void http_reqeust_add_header(struct HttpRequest *request, char *key, char *value) {
-    request->request_headers[request->request_header_number].key = key;
-    request->request_headers[request->request_header_number].value = value;
-    request->request_header_number++;
+void http_request_add_header(struct HttpRequest *request, char *key, char *value) {
+    request->request_headers[request->request_headers_number].key = key;
+    request->request_headers[request->request_headers_number].value = value;
+    request->request_headers_number++;
 }
 
-char *http_reqeust_get_header(struct HttpRequest *request, char *key) {
+char *http_request_get_header(struct HttpRequest *request, char *key) {
     char *value = NULL;
     if(request->request_headers != NULL) {
         for(int i=0; i<request->request_headers_number; i++) {
@@ -58,11 +58,11 @@ char *http_reqeust_get_header(struct HttpRequest *request, char *key) {
     return value;
 }
 
-enum HttpRequestState http_reqeust_current_state(struct HttpRequest *request) {
+enum HttpRequestState http_request_current_state(struct HttpRequest *request) {
     return request->current_state;
 }
 
-int http_reqeust_close_connection(struct HttpRequest *request) {
+int http_request_close_connection(struct HttpRequest *request) {
     char *connection = http_request_get_header(request, "Connection");
 
     if(connection != NULL && strncmp(connection, CLOSE, strlen(CLOSE)) == 0) {

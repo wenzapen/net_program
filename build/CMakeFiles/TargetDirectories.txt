@@ -1,6 +1,0 @@
-/home/wen/net_program/build/CMakeFiles/edit_cache.dir
-/home/wen/net_program/build/CMakeFiles/rebuild_cache.dir
-/home/wen/net_program/build/server/CMakeFiles/edit_cache.dir
-/home/wen/net_program/build/server/CMakeFiles/rebuild_cache.dir
-/home/wen/net_program/build/src/CMakeFiles/edit_cache.dir
-/home/wen/net_program/build/src/CMakeFiles/rebuild_cache.dir

@@ -1,9 +1,9 @@
 #include "tcp_server.h"
-#include "acceptor.h"
-#include "event_loop.h"
-#include "event_loop_thread.h"
-#include "channel.h"
-#include "tcp_connection.h"
+
+
+void make_nonblocking(int fd) {
+    fcntl(fd, F_SETFL, O_NONBLOCK);
+}
 
 
 struct TcpServer *tcp_server_new(struct EventLoop *event_loop,

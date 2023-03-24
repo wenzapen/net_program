@@ -89,7 +89,7 @@ int http_on_message(struct Buffer *input, struct TcpConnection *tcp_connection) 
         tcp_connection_shutdown(tcp_connection);
     }
 
-    if (http_reqeust_current_state(http_request) == REQUEST_DONE) {
+    if (http_request_current_state(http_request) == REQUEST_DONE) {
         struct HttpResponse *http_response = http_response_new();
         if(http_server->http_request_callback != NULL) {
             http_server->http_request_callback(http_request, http_response);
@@ -98,23 +98,23 @@ int http_on_message(struct Buffer *input, struct TcpConnection *tcp_connection) 
         http_response_encode_buffer(http_response, buffer);
         tcp_connection_send_buffer(tcp_connection, buffer);
 
-        if (http_reqeust_close_connection(http_request)) {
+        if (http_request_close_connection(http_request)) {
             tcp_connection_shutdown(tcp_connection);
         }
-        http_reqeust_reset(http_request);
+        http_request_reset(http_request);
     }
 
 }
 
 int http_on_write_completed(struct TcpConnection *tcp_connection)  {
-    net_msgx("write completed");
+    // net_msgx("write completed");
     return 0;
 }
 
 int http_on_connection_closed(struct TcpConnection *tcp_connection)  {
-    net_msgx("connection closed");
+    // net_msgx("connection closed");
     if (tcp_connection->http_request != NULL) {
-        http_reqeust_clear(tcp_connection->http_request);
+        http_request_clear(tcp_connection->http_request);
         tcp_connection->http_request = NULL;
     }
     return 0;
@@ -124,7 +124,7 @@ struct HttpServer *http_server_new(struct EventLoop *event_loop,
                                     int port, 
                                     http_request_callback request_callback, 
                                     int thread_num) {
-    struct HttpServer *http_server = malloc(sizeof(struct(HttpServer)));
+    struct HttpServer *http_server = malloc(sizeof(struct HttpServer));
     http_server->http_request_callback = request_callback;
     
     struct Acceptor *acceptor = acceptor_new(port);

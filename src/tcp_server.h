@@ -1,6 +1,12 @@
 #ifndef TCPSERVER_H
 #define TCPSERVER_H
 
+#include "acceptor.h"
+#include "event_loop.h"
+#include "event_loop_thread.h"
+#include "channel.h"
+#include "tcp_connection.h"
+#include "common.h"
 
 typedef int (*connection_completed_callback) (struct TcpConnection *tcp_connection);
 typedef int (*message_callback) (struct Buffer *buffer, struct TcpConnection *tcp_connection);

@@ -20,23 +20,23 @@ struct HttpRequest {
     char *url;
     enum HttpRequestState current_state;
     struct RequestHeader *request_headers;
-    int request_header_number;
+    int request_headers_number;
 
 };
 
 struct HttpRequest *http_request_new();
 
-void http_reqeust_clear(struct HttpRequest *http_request);
+void http_request_clear(struct HttpRequest *http_request);
 
-void http_reqeust_reset(struct HttpRequest *http_request);
+void http_request_reset(struct HttpRequest *http_request);
 
-void http_reqeust_add_header(struct HttpRequest *http_request, char *key, char *value);
+void http_request_add_header(struct HttpRequest *http_request, char *key, char *value);
 
-char *http_reqeust_get_header(struct HttpRequest *http_request, char *key);
+char *http_request_get_header(struct HttpRequest *http_request, char *key);
 
-enum HttpRequestState http_reqeust_current_state(struct HttpRequest *http_request);
+enum HttpRequestState http_request_current_state(struct HttpRequest *http_request);
 
-int http_reqeust_close_connection(struct HttpRequest *http_request);
+int http_request_close_connection(struct HttpRequest *http_request);
 
 
 #endif

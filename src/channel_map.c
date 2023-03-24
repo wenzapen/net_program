@@ -1,4 +1,5 @@
 #include "channel_map.h"
+#include "common.h"
 
 int map_make_space(struct ChannelMap *map, int slot, int msize){
     if(slot >= map->nentries) {
@@ -8,7 +9,7 @@ int map_make_space(struct ChannelMap *map, int slot, int msize){
         while(nentries < slot)
             nentries <<= 1;
         
-        tmp = (voi **) realloc(map->entries, nentries * msize);
+        tmp = (void **) realloc(map->entries, nentries * msize);
         if(tmp == NULL)
             return -1;
 

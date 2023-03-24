@@ -1,4 +1,5 @@
 #include "http_response.h"
+#include "common.h"
 
 #define INIT_RESPONSE_HEADER_SIZE 128
 

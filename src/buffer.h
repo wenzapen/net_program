@@ -1,13 +1,13 @@
 #ifndef BUFFER_H
 #define BUFFER_H
 
-
+#define INIT_BUFFER_SIZE 65536
 
 struct Buffer {
     char *data;
     int read_index;
     int write_index;
-    int total_size
+    int total_size;
 };
 
 struct Buffer *buffer_new();

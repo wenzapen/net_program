@@ -1,4 +1,5 @@
 #include "event_loop_thread.h"
+#include "common.h"
 
 void *event_loop_thread_run(void *arg)
 {

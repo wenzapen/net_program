@@ -2,6 +2,7 @@
 #include "src/http_server.h"
 #include "src/http_request.h"
 #include "src/http_response.h"
+#include "src/event_loop.h"
 
 int on_request(struct HttpRequest *http_request, struct HttpResponse *http_response)
 {
@@ -35,8 +36,7 @@ int on_request(struct HttpRequest *http_request, struct HttpResponse *http_respo
     return 0;
 }
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
     struct EventLoop *event_loop = event_loop_init();
 
     struct HttpServer *http_server = http_server_new(event_loop, SERV_PORT, on_request, 2);

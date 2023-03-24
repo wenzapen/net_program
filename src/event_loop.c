@@ -1,7 +1,6 @@
 #include "event_loop.h"
 #include "channel_map.h"
-#include "utils.h"
-#include "common.h"
+
 
 
 static int event_loop_handle_pending_channel(struct EventLoop *event_loop)
@@ -69,12 +68,12 @@ static int event_loop_do_channel_event(struct EventLoop *event_loop, int fd, str
 int event_loop_run(struct EventLoop *event_loop)
 {
     struct EventDispatcher *event_dispatcher = event_loop->event_dispatcher;
-    struct timeval timeval;
-    timeval.tv_sec = 1;
+    struct timeval tv;
+    tv.tv_sec = 1;
 
     while(!event_loop->quit)
     {
-        event_dispatcher->dispatch(event_loop, timeval);
+        event_dispatcher->dispatch(event_loop, &tv);
 
         event_loop_handle_pending_channel(event_loop);
     }
@@ -88,8 +87,8 @@ void event_loop_wakeup(struct EventLoop *event_loop)
     char one = 'a';
     ssize_t n = write(event_loop->socket_pair[0], &one, sizeof(one));
 
-    if(n != sizeof(one))
-        LOG_ERR("wakeup event loop thread failed"); 
+    // if(n != sizeof(one))
+        // LOG_ERR("wakeup event loop thread failed"); 
 }
 
 int event_loop_add_channel_event(struct EventLoop *event_loop, int fd, struct Channel *channel)
@@ -161,7 +160,7 @@ int event_loop_handle_pending_update(struct EventLoop *event_loop, int fd, struc
     if(fd < 0)
         return 0;
     
-    if(channel_map->nentries[fd] == NULL)
+    if((channel_map)->entries[fd] == NULL)
         return -1;
 
     struct EventDispatcher *dispatcher = event_loop->event_dispatcher;
@@ -192,6 +191,16 @@ int channel_event_activate(struct EventLoop *event_loop, int fd, int revent)
    return 0;
 }
 
+static int handle_wakeup(void *data) {
+    struct EventLoop *event_loop = (struct EventLoop *) data;
+    char one;
+    ssize_t n = read(event_loop->socket_pair[1], &one, sizeof one);
+    if (n != sizeof one) {
+        // LOG_ERR("handleWakeup  failed");
+    }
+    // net_msgx("wakeup, %s", event_loop->thread_name);
+}
+
 
 struct EventLoop *event_loop_init()
 {
@@ -217,8 +226,8 @@ struct EventLoop *event_loop_init_with_name(char *thread_name)
     event_loop->event_dispatcher_data = event_loop->event_dispatcher->init(event_loop);
 
     event_loop->owner_thread_id = pthread_self();
-    if(socketpair(AF_UNIX,SOCK_STREAM,0,event_loop->socket_pair) < 0)
-        LOG_ERR("socket pair set failed\n");
+    // if(socketpair(AF_UNIX,SOCK_STREAM,0,event_loop->socket_pair) < 0)
+    //     LOG_ERR("socket pair set failed\n");
     event_loop->is_handle_pending = 0;
     event_loop->pending_head = NULL;
     event_loop->pending_tail = NULL;
