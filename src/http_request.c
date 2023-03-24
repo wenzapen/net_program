@@ -25,7 +25,7 @@ void http_request_clear(struct HttpRequest *request) {
     if(request->request_headers != NULL) {
         for(int i=0; i<request->request_headers_number; i++) {
             free(request->request_headers[i].key);
-            fred(request->request_headers[i].value);
+            free(request->request_headers[i].value);
         }
         free(request->request_headers);
     }

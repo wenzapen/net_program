@@ -1,6 +1,11 @@
 #ifndef TCPSERVER_H
 #define TCPSERVER_H
 
+typedef int (*connection_completed_callback) (struct TcpConnection *tcp_connection);
+typedef int (*message_callback) (struct Buffer *buffer, struct TcpConnection *tcp_connection);
+typedef int (*write_completed_callback) (struct TcpConnection *tcp_connection);
+typedef int (*connection_closed_callback) (struct TcpConnection *tcp_connection);
+
 #include "acceptor.h"
 #include "event_loop.h"
 #include "event_loop_thread.h"
@@ -8,10 +13,7 @@
 #include "tcp_connection.h"
 #include "common.h"
 
-typedef int (*connection_completed_callback) (struct TcpConnection *tcp_connection);
-typedef int (*message_callback) (struct Buffer *buffer, struct TcpConnection *tcp_connection);
-typedef int (*write_completed_callback) (struct TcpConnection *tcp_connection);
-typedef int (*connection_closed_callback) (struct TcpConnection *tcp_connection);
+
 
 struct TcpServer {
     int port;
