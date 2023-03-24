@@ -27,5 +27,7 @@ struct HttpResponse {
 
 struct HttpResponse *http_response_new();
 
+void http_response_encode_buffer(struct HttpResponse *response, struct Buffer *buffer);
+
 
 #endif

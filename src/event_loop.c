@@ -112,7 +112,7 @@ int event_loop_handle_pending_add(struct EventLoop *event_loop, int fd, struct C
     struct ChannelMap *channel_map = event_loop->channel_map;
     if(fd>channel_map->nentries)
     {
-        if(map_make_space(channel_map, fd, sizeof(struct Channel)) == -1)
+        if(map_make_space(channel_map, fd, sizeof(struct Channel *)) == -1)
             return -1;
     }
 
@@ -129,17 +129,67 @@ int event_loop_handle_pending_add(struct EventLoop *event_loop, int fd, struct C
 
 int event_loop_handle_pending_remove(struct EventLoop *event_loop, int fd, struct Channel *channel)
 {
+    struct ChannelMap *channel_map = event_loop->channel_map;
+    assert(fd == channel->fd);
 
+    if(fd < 0)
+        return 0;
+    
+    if(fd >= channel_map->nentries)
+        return -1;
+
+    struct EventDispatcher *dispatcher = event_loop->event_dispatcher;
+
+    struct Channel *ch = channel_map->entries[fd];
+
+    int rval = 0;
+
+    if((dispatcher->del(event_loop, ch)) == -1)
+        rval = -1;
+    else
+        rval = 1;
+   
+    channel_map->entries[fd] = NULL;
+    return rval;
 }
 
 int event_loop_handle_pending_update(struct EventLoop *event_loop, int fd, struct Channel *channel)
 {
+    struct ChannelMap *channel_map = event_loop->channel_map;
+    assert(fd == channel->fd);
+
+    if(fd < 0)
+        return 0;
+    
+    if(channel_map->nentries[fd] == NULL)
+        return -1;
+
+    struct EventDispatcher *dispatcher = event_loop->event_dispatcher;
+
+    return dispatcher->update(event_loop, channel);
 
 }
 
 int channel_event_activate(struct EventLoop *event_loop, int fd, int revent)
 {
+    struct ChannelMap *channel_map = event_loop->channel_map;
+    
 
+    if(fd < 0)
+        return 0;
+    
+    if(fd >= channel_map->nentries)
+        return -1;
+
+    struct Channel *channel = channel_map->entries[fd];
+    assert(fd == channel->fd);
+
+    if(revent & EVENT_READ)
+        if(channel->event_read_callback) channel->event_read_callback(channel->data);
+    if(revent & EVENT_WRITE)
+        if(channel->event_write_callback) channel->event_write_callback(channel->data);
+
+   return 0;
 }
 
 

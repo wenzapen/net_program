@@ -46,3 +46,15 @@ struct TcpConnection *tcp_connection_new(int fd,
 
 
 }
+
+int tcp_connection_send_data(struct TcpConnection *tcp_connection, void *data, int size) {
+    
+}
+
+int tcp_connection_send_buffer(struct TcpConnection *tcp_connection, struct Buffer *buffer) {
+
+}
+
+void tcp_connection_shutdown(struct TcpConnection *tcp_connection) {
+
+}

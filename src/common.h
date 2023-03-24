@@ -6,6 +6,7 @@
 #include <sys/poll.h>
 #include <sys/socket.h>
 #include <sys/times.h>
+#include <sys/uio.h>
 #include <netinet/in.h>
 #include <fcntl.h>
 #include <pthread.h>
