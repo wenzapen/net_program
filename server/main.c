@@ -1,6 +1,9 @@
 #include "src/common.h"
+#include "src/http_server.h"
+#include "src/http_request.h"
+#include "src/http_response.h"
 
-int on_request(struct HttpReqeust *http_request, struct HttpResponse *http_response)
+int on_request(struct HttpRequest *http_request, struct HttpResponse *http_response)
 {
     char *url = http_request->url;
     char *question = memmem(url, strlen(url), "?", 1);
@@ -14,18 +17,18 @@ int on_request(struct HttpReqeust *http_request, struct HttpResponse *http_respo
     }
 
     if (strcmp(path, "/") == 0) {
-        http_response->statusCode = OK;
-        http_response->statusMessage = "OK";
-        http_response->contentType = "text/html";
+        http_response->status_code = OK;
+        http_response->status_message = "OK";
+        http_response->content_type = "text/html";
         http_response->body = "<html><head><title>This is network programming</title></head><body><h1>Hello, network programming</h1></body></html>";
     } else if (strcmp(path, "/network") == 0) {
-        http_response->statusCode = OK;
-        http_response->statusMessage = "OK";
-        http_response->contentType = "text/plain";
+        http_response->status_code = OK;
+        http_response->status_message = "OK";
+        http_response->content_type = "text/plain";
         http_response->body = "hello, network programming";
     } else {
-        http_response->statusCode = NotFound;
-        http_response->statusMessage = "Not Found";
+        http_response->status_code = NotFound;
+        http_response->status_message = "Not Found";
         http_response->keep_connected = 1;
     }
 

@@ -1,6 +1,8 @@
 #ifndef HTTP_RESPONSE_H
 #define HTTP_RESPONSE_H
 
+#include "buffer.h"
+
 struct ResponseHeader {
     char *key;
     char *value;
@@ -12,15 +14,15 @@ enum HttpStatusCode {
     MovedPermently = 301,
     BadRequest = 400,
     NotFound = 404,
-}
+};
 
 struct HttpResponse {
     enum HttpStatusCode status_code;
     char *status_message;
     char *content_type;
     char *body;
-    struct ResponseHeader *respnse_headers;
-    int response_header_number;
+    struct ResponseHeader *response_headers;
+    int response_headers_number;
     int keep_connected;
 
 };

@@ -15,5 +15,9 @@
 
 
 
+#define SERV_PORT 43211
+#define LISTENQ 1024
+#define BUFFER_SIZE 4096
+
 
 #endif

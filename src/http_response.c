@@ -16,7 +16,7 @@ struct HttpResponse *http_response_new() {
 
 void http_response_encode_buffer(struct HttpResponse *response, struct Buffer *output) {
     char buf[32];
-    snprintf(buf, sizeof(buf), "HTTP/1.1 %d", reponse->status_code);
+    snprintf(buf, sizeof(buf), "HTTP/1.1 %d", response->status_code);
     buffer_append_string(output, buf);
     buffer_append_string(output, response->status_message);
     buffer_append_string(output, "\r\n");
@@ -29,7 +29,7 @@ void http_response_encode_buffer(struct HttpResponse *response, struct Buffer *o
         buffer_append_string(output, "Connection: Keep-Alive\r\n");
     }
 
-    if(reponse->response_headers != NULL && response->response_headers_number > 0 ) {
+    if(response->response_headers != NULL && response->response_headers_number > 0 ) {
         for (int i=0; i<response->response_headers_number; i++ ) {
             buffer_append_string(output, response->response_headers[i].key);
             buffer_append_string(output, ": ");

@@ -9,7 +9,7 @@ struct RequestHeader {
 
 enum HttpRequestState {
     REQUEST_STATUS,
-    REQUEST_HEADER,
+    REQUEST_HEADERS,
     REQUEST_BODY,
     REQUEST_DONE
 };

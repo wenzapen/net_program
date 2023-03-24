@@ -2,6 +2,9 @@
 #define TCPCONNECTION_H
 
 #include "tcp_server.h"
+#include "event_loop.h"
+#include "buffer.h"
+#include "channel.h"
 
 
 struct TcpConnection {
@@ -17,8 +20,8 @@ struct TcpConnection {
     connection_closed_callback connection_closed_callback;
 
     void *data;
-    void *request;
-    void *response;
+    void *http_request;
+    void *http_response;
 
 };
 
