@@ -68,7 +68,7 @@ int poll_add(struct EventLoop *event_loop, struct Channel *channel)
         }
     }
     if (i >= INIT_POLL_SIZE) {
-        LOG_ERR("too many clients, just abort it");
+        // LOG_ERR("too many clients, just abort it");
     }
 
     return 0;
@@ -89,7 +89,7 @@ int poll_del(struct EventLoop *event_loop, struct Channel *channel)
         }
     }
     if (i >= INIT_POLL_SIZE) {
-        LOG_ERR("cannot find fd, delete error");
+        // LOG_ERR("cannot find fd, delete error");
     }
 
     return 0;
@@ -116,7 +116,7 @@ int poll_update(struct EventLoop *event_loop, struct Channel *channel)
         }
     }
     if (i >= INIT_POLL_SIZE) {
-        LOG_ERR("cannot find fd, update error");
+        // LOG_ERR("cannot find fd, update error");
     }
 
     return 0;
@@ -130,7 +130,7 @@ int poll_dispatch(struct EventLoop *event_loop, struct timeval *timeval)
 
     if( (ready_number = poll(poll_dispatcher_data->event_set, INIT_POLL_SIZE, time_wait)) < 0 )
     {
-        error(1, errno, "poll failed ");
+        // error(1, errno, "poll failed ");
     }
 
     if(ready_number <= 0)

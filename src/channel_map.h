@@ -1,6 +1,8 @@
 #ifndef CHANNEL_MAP_H
 #define CHANNEL_MAP_H
 
+#include "common.h"
+
 struct ChannelMap {
     void **entries;
     int nentries;

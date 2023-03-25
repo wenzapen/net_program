@@ -2,6 +2,7 @@
 #define EVENT_DISPATCHER_H
 
 #include "channel.h"
+#include "common.h"
 
 struct EventDispatcher {
     const char *name;

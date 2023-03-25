@@ -11,6 +11,7 @@ typedef int (*connection_closed_callback) (struct TcpConnection *tcp_connection)
 #include "event_loop_thread.h"
 #include "channel.h"
 #include "tcp_connection.h"
+#include "thread_pool.h"
 #include "common.h"
 
 

@@ -18,7 +18,7 @@ int handle_read(void *data){
 
     if (buffer_socket_read(input_buffer, channel->fd) > 0) {
         if(tcp_connection->message_callback != NULL) {
-            tcp_connection->message_callback(tcp_connection);
+            tcp_connection->message_callback(input_buffer, tcp_connection);
         }
     } else {
         handle_connection_closed(tcp_connection);
@@ -54,8 +54,7 @@ struct TcpConnection *tcp_connection_new(int fd,
                                         message_callback message_callback,
                                         write_completed_callback write_completed_callback,
                                         connection_closed_callback connection_closed_callback) {
-
-    struct TcpConnection *tcp_connection = malloc(sizeof(struct(TcpConnection)));
+    struct TcpConnection *tcp_connection = malloc(sizeof(struct TcpConnection));
 
     tcp_connection->connection_completed_callback = connection_completed_callback;
     tcp_connection->message_callback = message_callback;
@@ -96,11 +95,11 @@ int tcp_connection_send_data(struct TcpConnection *tcp_connection, void *data, i
             nleft -= nwrited;
         } else {
             nwrited = 0;
-            if (errno != EWOULDBLOCK) {
-                if (errno == EPIPE || errno == ECONNRESET) {
-                    fault = 1;
-                }
-            }
+            // if (errno != EWOULDBLOCK) {
+            //     if (errno == EPIPE || errno == ECONNRESET) {
+            //         fault = 1;
+            //     }
+            // }
         }
     }
 
@@ -121,6 +120,8 @@ int tcp_connection_send_buffer(struct TcpConnection *tcp_connection, struct Buff
 }
 
 void tcp_connection_shutdown(struct TcpConnection *tcp_connection) {
-    if (shutdown(tcp_connection->channel->fd, SHUT_WR) < 0)
-        net_msgx("tcp connection shutdown failed. Socket id=%d", tcp_connection->channel->fd);
+    if (shutdown(tcp_connection->channel->fd, SHUT_WR) < 0) {
+        // net_msgx("tcp connection shutdown failed. Socket id=%d", tcp_connection->channel->fd);
+
+    }
 }

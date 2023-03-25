@@ -2,6 +2,7 @@
 #define HTTP_RESPONSE_H
 
 #include "buffer.h"
+#include "common.h"
 
 struct ResponseHeader {
     char *key;

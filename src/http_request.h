@@ -1,6 +1,8 @@
 #ifndef HTTP_REQUEST_H
 #define HTTP_REQUEST_H
 
+#include "common.h"
+
 struct RequestHeader {
     char *key;
     char *value;

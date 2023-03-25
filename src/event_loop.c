@@ -85,6 +85,7 @@ int event_loop_run(struct EventLoop *event_loop)
 void event_loop_wakeup(struct EventLoop *event_loop)
 {
     char one = 'a';
+    printf("socket pair[0]: %d\n", event_loop->socket_pair[0]);
     ssize_t n = write(event_loop->socket_pair[0], &one, sizeof(one));
 
     // if(n != sizeof(one))
@@ -226,8 +227,10 @@ struct EventLoop *event_loop_init_with_name(char *thread_name)
     event_loop->event_dispatcher_data = event_loop->event_dispatcher->init(event_loop);
 
     event_loop->owner_thread_id = pthread_self();
-    // if(socketpair(AF_UNIX,SOCK_STREAM,0,event_loop->socket_pair) < 0)
-    //     LOG_ERR("socket pair set failed\n");
+    if(socketpair(AF_UNIX,SOCK_STREAM,0,event_loop->socket_pair) < 0) {
+        // LOG_ERR("socket pair set failed\n");
+    }
+
     event_loop->is_handle_pending = 0;
     event_loop->pending_head = NULL;
     event_loop->pending_tail = NULL;

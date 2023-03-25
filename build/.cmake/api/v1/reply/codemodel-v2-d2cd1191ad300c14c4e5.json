@@ -49,7 +49,7 @@
 					]
 				}
 			],
-			"name" : "",
+			"name" : "Debug",
 			"projects" : 
 			[
 				{
@@ -72,14 +72,14 @@
 				{
 					"directoryIndex" : 1,
 					"id" : "http_server::@d19778d2e34a1e3ddfc0",
-					"jsonFile" : "target-http_server-3a162242ddaabeb7422f.json",
+					"jsonFile" : "target-http_server-Debug-603c7a84f11b687fbef6.json",
 					"name" : "http_server",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 2,
 					"id" : "httpserver_demo::@145eef247bfb46b6828c",
-					"jsonFile" : "target-httpserver_demo-9395d459d8c2fa706a42.json",
+					"jsonFile" : "target-httpserver_demo-Debug-d79d914a8b2884b1bc95.json",
 					"name" : "httpserver_demo",
 					"projectIndex" : 0
 				}

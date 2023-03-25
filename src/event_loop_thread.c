@@ -32,12 +32,12 @@ struct EventLoop *event_loop_thread_start(struct EventLoopThread *event_loop_thr
 {
     pthread_create(&event_loop_thread->thread_tid, NULL, &event_loop_thread_run, event_loop_thread);
     
-    pthread_mutex_lock(&event_loop_thread->mutex);
+    assert(pthread_mutex_lock(&event_loop_thread->mutex) == 0);
 
     while(event_loop_thread->event_loop == NULL)
-        pthread_cond_wait(&event_loop_thread->cond, &event_loop_thread->mutex);
+        assert(pthread_cond_wait(&event_loop_thread->cond, &event_loop_thread->mutex) == 0);
     
-    pthread_mutex_unlock(&event_loop_thread->mutex);
+    assert(pthread_mutex_unlock(&event_loop_thread->mutex) == 0);
 
     return event_loop_thread->event_loop;
 

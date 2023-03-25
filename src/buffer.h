@@ -3,6 +3,8 @@
 
 #define INIT_BUFFER_SIZE 65536
 
+#include "common.h"
+
 struct Buffer {
     char *data;
     int read_index;

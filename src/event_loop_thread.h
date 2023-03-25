@@ -3,7 +3,7 @@
 
 #include <pthread.h>
 #include "event_loop.h"
-
+#include "common.h"
 
 struct EventLoopThread {
     struct EventLoop *event_loop;

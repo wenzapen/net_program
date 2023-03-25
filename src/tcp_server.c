@@ -1,5 +1,6 @@
 #include "tcp_server.h"
 
+#define _GNU_SOURCE
 
 void make_nonblocking(int fd) {
     fcntl(fd, F_SETFL, O_NONBLOCK);
@@ -22,7 +23,10 @@ struct TcpServer *tcp_server_new(struct EventLoop *event_loop,
     tcp_server->write_completed_callback = write_completed_callback;
     tcp_server->connection_closed_callback = connection_closed_callback;
     tcp_server->thread_num = thread_num;
-    tcp_server->thread_pool = thread_pool_new(event_loop, thread_num);
+    struct ThreadPool *tp = thread_pool_new(event_loop, thread_num);
+    printf("i am thread_pool(tp) in tcp_server_new function: %p \n", tp);
+    tcp_server->thread_pool = tp;
+    printf("i am thread_pool in tcp_server_new function: %p \n", tcp_server->thread_pool);
     tcp_server->data = NULL;
 
     return tcp_server;

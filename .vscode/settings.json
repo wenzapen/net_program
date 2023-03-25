@@ -2,6 +2,7 @@
     "cmake.configureOnOpen": false,
     "files.associations": {
         "epoll.h": "c",
-        "tcp_connection.h": "c"
+        "tcp_connection.h": "c",
+        "common.h": "c"
     }
 }

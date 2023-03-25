@@ -38,6 +38,7 @@ int on_request(struct HttpRequest *http_request, struct HttpResponse *http_respo
 
 int main(int argc, char **argv) {
     struct EventLoop *event_loop = event_loop_init();
+    printf("i am event_loop in main.c %p \n ", event_loop);
 
     struct HttpServer *http_server = http_server_new(event_loop, SERV_PORT, on_request, 2);
 
