@@ -35,6 +35,7 @@ static int process_status_line(char *start, char *end, struct HttpRequest *reque
 }
 
 static int parse_http_request(struct Buffer *buffer, struct HttpRequest *request) {
+    // return 0;
     int ok = 1;
     while (request->current_state != REQUEST_DONE) {
         if (request->current_state == REQUEST_STATUS) {
@@ -80,13 +81,16 @@ static int parse_http_request(struct Buffer *buffer, struct HttpRequest *request
 }
 
 int http_on_message(struct Buffer *input, struct TcpConnection *tcp_connection) {
+
+    //  printf("received data from a client(http_on_message) %s\n", input->data);
     struct HttpServer *http_server = (struct HttpServer *) tcp_connection->data;
     struct HttpRequest *http_request = tcp_connection->http_request;
 
     if (parse_http_request(input, http_request) == 0) {
         char *error_response = "HTTP/1.1 400 Bad Request\r\n\r\n";
-        tcp_connection_send_data(tcp_connection, error_response, sizeof(error_response));
-        tcp_connection_shutdown(tcp_connection);
+        // printf("eror_response: %s, size: %d\n", error_response, strlen(error_response));
+        tcp_connection_send_data(tcp_connection, error_response, strlen(error_response));
+        // tcp_connection_shutdown(tcp_connection);
     }
 
     if (http_request_current_state(http_request) == REQUEST_DONE) {

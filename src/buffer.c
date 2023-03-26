@@ -24,6 +24,7 @@ int buffer_writeable_size(struct Buffer *buffer) {
     return buffer->total_size - buffer->write_index;
 }
 int buffer_readable_size(struct Buffer *buffer) {
+    printf("write_index: %d , read_index: %d \n", buffer->write_index, buffer->read_index);
     return buffer->write_index - buffer->read_index;
 }
 int buffer_front_spare_size(struct Buffer *buffer) {
@@ -54,7 +55,7 @@ int buffer_append(struct Buffer *buffer, void *data, int size) {
     if(data != NULL) {
         make_room(buffer, size);
         memcpy(buffer->data+buffer->write_index, data, size);
-        buffer->total_size += size;
+        buffer->write_index += size;
     }
 }
 int buffer_append_char(struct Buffer *buffer, char data) {
@@ -71,16 +72,23 @@ int buffer_socket_read(struct Buffer *buffer, int fd) {
     char additional_buffer[INIT_BUFFER_SIZE];
     struct iovec vec[2];
     int max_writable_size = buffer_writeable_size(buffer);
+    // printf("max_writable_size: %d\n", max_writable_size);
     vec[0].iov_base = buffer->data +buffer->write_index;
     vec[0].iov_len = max_writable_size;
     vec[1].iov_base = &additional_buffer;
     vec[1].iov_len = sizeof(additional_buffer);
+    //  printf("additional_buffer_size: %d\n", vec[1].iov_len);
 
     int result = readv(fd, vec, 2);
+    // printf("read from socket %d bytes\n", result);
     if(result < 0)
         return -1;
     else if(result <= max_writable_size) {
         buffer->write_index += result;
+        // char tmp[200];
+        // memcpy(&tmp, buffer->data, result);
+        // tmp[result] = '\0';
+        // printf("read from socket: %s\n", tmp);
     } else {
         buffer->write_index = buffer->total_size;
         buffer_append(buffer, &additional_buffer, result - max_writable_size);

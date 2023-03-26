@@ -85,7 +85,7 @@ int event_loop_run(struct EventLoop *event_loop)
 void event_loop_wakeup(struct EventLoop *event_loop)
 {
     char one = 'a';
-    printf("socket pair[0]: %d\n", event_loop->socket_pair[0]);
+    // printf("socket pair[0]: %d\n", event_loop->socket_pair[0]);
     ssize_t n = write(event_loop->socket_pair[0], &one, sizeof(one));
 
     // if(n != sizeof(one))
@@ -182,6 +182,8 @@ int channel_event_activate(struct EventLoop *event_loop, int fd, int revent)
         return -1;
 
     struct Channel *channel = channel_map->entries[fd];
+    // printf("i am channel in channel_event_activate %p \n ", channel);
+    // printf("i am fd from parameter: %d and from channel %d in channel_event_activate %p \n ", fd, channel->fd);
     assert(fd == channel->fd);
 
     if(revent & EVENT_READ)

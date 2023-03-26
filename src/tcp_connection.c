@@ -17,6 +17,7 @@ int handle_read(void *data){
     struct Channel *channel = tcp_connection->channel;
 
     if (buffer_socket_read(input_buffer, channel->fd) > 0) {
+        // printf("received data from a client(hanlde_read) %s\n", input_buffer->data);
         if(tcp_connection->message_callback != NULL) {
             tcp_connection->message_callback(input_buffer, tcp_connection);
         }
@@ -86,13 +87,19 @@ int tcp_connection_send_data(struct TcpConnection *tcp_connection, void *data, i
     size_t nleft = size;
     int fault = 0;
 
+    printf("data to be sent out: %s, size: %d\n", data, size);
+
     struct Buffer *output_buffer = tcp_connection->output_buffer;
     struct Channel *channel = tcp_connection->channel;
 
     if (!channel_write_event_is_enabled(channel) && buffer_readable_size(output_buffer) == 0) {
         nwrited = write(channel->fd, data, size);
+        printf("sent out %d bytes\n", nwrited);
         if (nwrited >= 0) {
             nleft -= nwrited;
+            char tmp[100];
+            memcpy(&tmp,data,nwrited );
+            printf("Send: %s\n", tmp);
         } else {
             nwrited = 0;
             // if (errno != EWOULDBLOCK) {
@@ -102,7 +109,7 @@ int tcp_connection_send_data(struct TcpConnection *tcp_connection, void *data, i
             // }
         }
     }
-
+    printf("fault: %d, nleft: %d\n", fault, nleft);
     if (!fault && nleft > 0) {
         buffer_append(output_buffer, data+nwrited, nleft);
         if (!channel_write_event_is_enabled(channel)) 

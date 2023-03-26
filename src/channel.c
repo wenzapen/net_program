@@ -20,6 +20,7 @@ int channel_write_event_is_enabled(struct Channel *channel) {
 }
 
 int channel_write_event_enable(struct Channel *channel) {
+    // printf("envent_write is enabled for channel %d\n", channel->fd);
     struct EventLoop *event_loop = (struct EventLoop *) channel->data;
     channel->events |= EVENT_WRITE;
     event_loop_update_channel_event(event_loop, channel->fd, channel);
